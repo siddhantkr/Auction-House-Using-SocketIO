@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Bidder</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+</head>
+
+<body class="text-center" style="margin:1em">
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+        <main role="main" class="inner cover">
+            <h1 class="cover-heading">Welcome to the auction!!!</h1>
+            <br>
+            <div id="hiddenAuctionContainer">
+                <div class="row" style="text-align: center; align-content: center">
+                    <div class="col">
+                        <div class="alert alert-primary" role="alert">
+                            Waiting for the auction to start.
+                        </div>
+                    </div>
+                </div>
+                <div class="row" id="soldListings">
+                </div>
+            </div>
+            <div id="auctionContainer">
+                <div class="row">
+                    <div class="col">
+                        <div class="card w-100" style="width: 18rem;">
+                            <div class="card-body">
+                                <div class="alert alert-warning" role="alert">
+                                    Time Remaining: <div id="timer"></div>
+                                </div>
+                                <h5 class="card-title">Item For Sale</h5>
+                                <p class="card-text">
+                                    <div class="col">
+                                        <div class="row">
+                                            Name: &nbsp;<div id="itemName"></div>
+                                        </div>
+                                        <div class="row">
+                                            Description: &nbsp;<div id="description"></div>
+                                        </div>
+                                        <div class="row">
+                                            Current bid leader: &nbsp;<div id="bidLeader"></div>
+                                        </div>
+                                        <div class="row">
+                                            Current bid amount: &nbsp;$<div id="bidHigh"></div>
+                                        </div>
+                                    </div>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card w-100" style="width: 18rem">
+                            <div class="card-body">
+                                <h5 class="card-title">Bidding</h5>
+                                <p class="card-text">
+                                    <div class="col">
+                                        <form id="bidForm" action="">
+                                            <div class="row">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="bidderNameSpan">Name</span>
+                                                    </div>
+                                                    <input type="text" class="form-control" id="bidName"
+                                                        aria-describedby="bidderNameSpan">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">$</span>
+                                                    </div>
+                                                    <input type="text" class="form-control" id="bidAmount"
+                                                        aria-label="bid amount"
+                                                        placeholder="Input value in dollar.cent (5.99) or just dollars (5)">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <button type="placeBid" class="btn btn-success">Place a bid</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        $(function () {
+            var socket = io();
+            var timer = 0;
+            $('#auctionContainer').hide();
+
+            // starts the timer
+            function startTimer() {
+                if (timer > 0) {
+                    var timeLeft = setInterval(function () {
+                        $("#timer").html(timer + ' seconds');
+                        timer--;
+                        if (timer <= 0) {
+                            clearInterval(timeLeft);
+                            $("#timer").html('Auction complete');
+                            clearForm();
+                        }
+                    }, 1000)
+                }
+            }
+
+            // Placing a bid 
+            $('form').submit(function (e) {
+                // prevents the page from refreshing
+                e.preventDefault();
+                const timestamp = new Date().getTime();
+                const newBid = { 'name': $('#bidName').val(), 'amount': $('#bidAmount').val(), 'timestamp': timestamp };
+                socket.emit('newBid', newBid);
+                return false;
+            });
+
+            // Update details of the winning bid 
+            socket.on('bidLeader', function (msg) {
+                $('#bidLeader').html(msg.name);
+                $('#bidHigh').html(msg.amount);
+            });
+
+            // When the auction starts
+            socket.on('initAuction', function (msg) {
+                $('#hiddenAuctionContainer').hide();
+                $('#auctionContainer').show();
+                $('#itemName').html(msg.itemName);
+                $('#description').html(msg.description);
+                $('#bidLeader').html('SYSTEM');
+                $('#bidHigh').html(msg.startingBid);
+
+            });
+
+            // When the auction ends, disable bidding and show the winner
+            socket.on('winningBid', function (msg) {
+                let soldListingStr = `
+                    <div class="col">
+                        <div class="alert alert-primary" role="alert">
+                            <div class="card my-2">
+                                <div class="card-title" style="">${msg.itemName}</div>
+                                <div class="card-body mx-1 px-0" style="text-align: left">
+                                    <p>Sold to: ${msg.name} </p>
+                                    <p>Winning bid:$ ${msg.amount} </p>
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+                    </div>
+                    `;
+                $('#soldListings').html(soldListingStr);
+                $('#hiddenAuctionContainer').show();
+                $('#auctionContainer').hide();
+            });
+
+            // Countdown timer
+            socket.on('timer', function (msg) {
+                timer = +msg;
+                startTimer(+msg);
+            });
+        });
+    </script>
+</body>
+
+</html>

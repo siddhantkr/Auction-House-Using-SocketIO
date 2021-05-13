@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Auction Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <form class="p-3 mx-auto flex-column" id="auctionForm">
+        <div class="row" id="duplicateAuctioneerWarning">
+            <div class="alert alert-danger w-100" style="text-align: center" role="alert">
+                There is already an auctioneer page connected. Please close the connection and try again.
+            </div>
+        </div>
+        <div class="row" id="auctionContent">
+            <div class="col-8">
+                <div class="card w-100" style="width: 18rem;">
+                    <div class="card-body">
+                        <h1 class="card-title" style="text-align: center">Item to auction</h1>
+                        <form id="bidForm" action="">
+                            <div class="col-11">
+                                <div class="form-group m-3">
+                                    
+                                    
+                                    
+                                    <div class="row">
+                                        <div class="form-group w-100">
+                                            <label for="name">Item Name</label>
+                                            <input type="text" class="form-control" id="name">
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                    <div class="row">
+                                        <div class="form-group w-100">
+                                            <label for="description">Description</label>
+                                            <textarea class="form-control" name="description" id="description" cols="10"
+                                                rows="3"></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group w-100">
+                                            <label for="startingBid">Starting Bid</label>
+                                            <input type="text" class="form-control" id="startingBid">
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                    <div class="row">
+                                        <div class="form-group w-100">
+                                            <label for="makerOfCar">MAKER OF CAR</label>
+                                            <select id="makerOfCar" class="form-control">
+                                                <option value="Make_Acura">Acura</option>
+                                                <option value="Make_Audi">Audi</option>
+                                                <option value="Make_BMW">BMW</option>
+                                                <option value="Make_Buick">Buick</option>
+                                                <option value="Make_Cadillac">Cadillac</option>
+                                                <option value="Make_Chevrolet">Chevrolet</option>
+                                                <option value="Make_Chrysler">Chrysler</option>
+                                                <option value="Make_Dodge">Dodge</option>
+                                                <option value="Make_Ford">Ford</option>
+                                                <option value="Make_GMC">GMC</option>
+                                                <option value="Make_Honda">Honda</option>
+                                                <option value="Make_Hummer">Hummer</option>
+                                                <option value="Make_Hyundai">Hyundai</option>
+                                                <option value="Make_Isuzu">Isuzu</option>
+                                                <option value="Make_Jaguar">Jaguar</option>
+                                                <option value="Make_Jeep">Jeep</option>
+                                                <option value="Make_Kia">Kia</option>
+                                                <option value="Make_Land Rover">Land Rover</option>
+                                                <option value="Make_Make_Lexus">Make_Lexus</option>
+                                                <option value="Make_Lincoln">Lincoln</option>
+                                                <option value="Make_MINI">MINI</option>
+                                                <option value="Make_Mazda">Mazda</option>
+                                                <option value="Make_Mercedes-Benz">Mercedes-Benz</option>
+                                                <option value="Make_Mercury">Mercury</option>
+                                                <option value="Make_Mitsubishi">Mitsubishi</option>
+                                                <option value="Make_Nissan">Nissan</option>
+                                                <option value="Make_Oldsmobile">Oldsmobile</option>
+                                                <option value="Make_Pontiac">Pontiac</option>
+                                                <option value="Make_Porsche">Porsche</option>
+                                                <option value="Make_Saab">Saab</option>
+                                                <option value="Make_Saturn">Saturn</option>
+                                                <option value="Make_Scion">Scion</option>
+                                                <option value="Make_Subaru">Subaru</option>
+                                                <option value="Make_Suzuki">Suzuki</option>
+                                                <option value="Make_Toyota">Toyota</option>
+                                                <option value="Make_Volkswagen">Volkswagen</option>
+                                                <option value="Make_Volvo">Volvo</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+
+
+                                    <div class="row">
+                                        <div class="form-group w-100">
+                                            <label for="typeOfCar">TYPE OF CAR</label>
+                                            <SELECT id="typeOfCar" class="form-control" name="typeOfCar">
+                                                <option value="Type_Hybrid">Hybrid</option>
+                                                <option value="Type_SUV">SUV</option>
+                                                <option value="Type_Sedan">Sedan</option>
+                                                <option value="Type_Sports">Sports</option>
+                                                <option value="Type_Truck">Truck</option>
+                                                <option value="Type_Wagon">Wagon</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="form-group w-100">
+                                            <label for="originOfCar">ORIGIN OF THE CAR YOU DRIVE:</label>
+                                            <SELECT id="originOfCar" class="form-control" name="originOfCar">
+                                                <option value="Origin_ASIA">ASIA</option>
+                                                <option value="Origin_Europe">Europe</option>
+                                                <option value="Origin_USA">USA</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group w-100">
+                                            <label for="driveTrain">DRIVETRAIN OF THE CAR(s)</label>
+                                            <SELECT id="driveTrain" class="form-control" name="driveTrain">
+                                                <option value="DriveTrain_All">All</option>
+                                                <option value="DriveTrain_Front">Front</option>
+                                                <option value="DriveTrain_Rear">Rear</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group w-100">
+                                            <label for="engineSize">ENGINE SIZE IN LITRES(s)</label>
+                                            <input type="number" class="form-control" name="engineSize" id="engineSize" placeholder ="EngineSize in liters eg 15 " required="required"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group w-100">
+                                            <label for="cylinders">CYLINDERS</label>
+                                            <input type="number" class="form-control" name="cylinders" id="cylinders" placeholder ="Number of Cylinders eg 4" required="required"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group w-100">
+                                            <label for="horsepower">Horsepower</label>
+                                            <input type="number" class="form-control" name="horsepower" id="horsepower" placeholder ="Horsepower eg 300" required="required"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group w-100">
+                                            <label for="MPG_City">MPG City</label>
+                                            <input type="number" class="form-control" name="MPG_City" id="MPG_City" placeholder ="MPG_City eg 10" required="required"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group w-100">
+                                            <label for="MPG_Highway">MPG Highway</label>
+                                            <input type="number" class="form-control" name="MPG_Highway" id="MPG_Highway" placeholder ="MPG_Highway eg 10" required="required"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group w-100">
+                                            <label for="weight">Weight</label>
+                                            <input type="number" class="form-control" name="weight" id="weight" placeholder ="Weight of the Car eg 4399" required="required"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group w-100">
+                                            <label for="wheelbase">Wheelbase of the car</label>
+                                            <input type="number" class="form-control" name="wheelbase" id="wheelbase" placeholder ="Wheelbase eg 100" required="required"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group w-100">
+                                            <label for="length">Length of the vehicle</label>
+                                            <input type="number" class="form-control" name="length" id="length" placeholder ="Length of the Car eg 150 (inches)" required="required"/>
+                                        </div>
+                                    </div>
+
+                                    
+                                    
+                                    
+                                    <div class="form-group w-100">
+                                        <label for="auctionDuration">Duration of Auction(s)</label>
+                                        <input type="text" class="form-control" id="auctionDuration">
+                                    </div>
+
+                                    <div class="row">
+                                        <button type="placeBid" class="btn btn-primary" id="startAuction">Start
+                                            Auction</button>
+                                        <button type="estimatedPrice" class="btn btn-primary" id="estimatedPrice">ESTIMATED PRICE</button>
+                                            <div class="estimate" id="estimate" ></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="row">
+                    <div class="card w-100" style="text-align: center">
+                        <h1 class="card-title">Timer</h1>
+                        <div class="h2">
+                            <div class="badge badge-primary">
+                                <p id="timer"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="card w-100" style="text-align: center">
+                        <div class="card-title">
+                            <div class="alert alert-secondary">
+                                Sold Listings
+                            </div>
+                        </div>
+                        <div class="card-container" id="soldListings">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        
+            
+        $(function () {
+            import {answer} from './api.js';            
+
+            var socket = io();
+            var timer = 0;
+            var x = socket.emit('newConnection', 'auctioneer');
+
+
+            const button = document.getElementById('estimatedPrice');
+
+            button.addEventListener('click', function(){
+                console.log(answer);
+                document.getElementById('estimate').innerHTML = answer;
+            
+            });
+
+            function startTimer() {
+                if (timer > 0) {
+                    var timeLeft = setInterval(function () {
+                        $("#timer").html(timer + ' seconds');
+                        if (timer < 0) {
+                            clearInterval(timeLeft);
+                            $("#timer").html('Auction complete');
+                        }
+                        timer--;
+                    }, 1000)
+                }
+            }
+            $('form').submit(function (e) {
+                // prevents the page from refreshing
+                e.preventDefault();
+                const itemToBid = { 'name': $('#name').val(), 'description': $('#description').val(), 'startingBid': $('#startingBid').val(), 'auctionDuration': $('#auctionDuration').val() , 'makerOfCar' : $('#makerOfCar').val(), 'typeOfCar' : $('#typeOfCar').val(),'originOfCar' : $('#originOfCar').val(),'driveTrain' : $('#driveTrain').val(), 'engineSize' : $('#engineSize').val(),'cylinders' : $('#cylinders').val(),'horsepower' : $('#horsepower').val(),'MPG_City' : $('#MPG_City').val(),'MPG_Highway' : $('#MPG_Highway').val(),'weight' : $('#weight').val(),'wheelbase' : $('#wheelbase').val(),'length' : $('#length').val()};
+                socket.emit('itemToBid', itemToBid);
+                return false;
+            });
+
+            
+            // show warning and hide content if there's already a auction page connected
+            socket.on('multipleAuctioneer', function (msg) {
+                if (msg) {
+                    $('#duplicateAuctioneerWarning').show();
+                    $('#auctionContent').hide();
+                } else {
+                    $('#duplicateAuctioneerWarning').hide();
+                    $('#auctionContent').show();
+                }
+            });
+
+            // Update with the current highest bid
+            socket.on('bidLeader', function (msg) {
+                $('#bidLeader').innerHtml = msg.name;
+                $('#bidHigh').innerHtml = msg.amount;
+            });
+
+            // Start the countdown
+            socket.on('timer', function (msg) {
+                timer = +msg;
+                startTimer(+msg);
+            });
+
+            // Show the list of items sold
+            socket.on('winningBids', function (msg) {
+                if (msg && msg.length > 0) {
+                    let soldListingStr = '';
+                    msg.forEach((element, index) => {
+                        if (msg[index] && msg[index].itemName && msg[index].name && msg[index].amount) {
+                            soldListingStr += (`
+                                <div class="card my-2">
+                                    <div class="card-title" style="">${msg[index].itemName}</div>
+                                    <div class="card-body mx-1 px-0" style="text-align: left">
+                                        <p>Sold to: ${msg[index].name} </p>
+                                        <p>Winning bid:$ ${msg[index].amount} </p>
+                                    </div>
+                                </div>
+                                <br>
+                            `);
+                        }
+                    });
+                    $('#soldListings').html(soldListingStr);
+                    clearForm();
+                }
+            });
+
+            // Clears the item form 
+            function clearForm() {
+                $("#auctionForm").trigger('reset');
+            }
+        });    
+    </script>
+    <script type="module" src="/api.js"></script>
+</body>
+
+</html>
